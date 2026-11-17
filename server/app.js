@@ -7,8 +7,13 @@ const PORT = 5005;
 // STATIC DATA
 // Import the provided files with JSON data of students and cohorts here:
 // ...
-const cohorts = require("./data/cohorts.json");
-const students = require("./data/students.json");
+
+const mongoose = require("mongoose");
+
+mongoose
+  .connect("mongodb://127.0.0.1:27017/cohort-tools-api")
+  .then((x) => console.log(`Connected to Database: "${x.connections[0].name}"`))
+  .catch((err) => console.error("Error connecting to MongoDB", err));
 
 // INITIALIZE EXPRESS APP - https://expressjs.com/en/4x/api.html#express
 const app = express();
@@ -35,6 +40,9 @@ app.use(cookieParser());
 app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
+
+const Cohort = require("./models/Cohort.model");
+const Student = require("./models/Student.model");
 
 // app.get("/api/cohorts", (req, res) => {
 //   res.json(cohorts);
