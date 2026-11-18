@@ -14,7 +14,7 @@ const studentSchema = new Schema({
   background: String,
   image: String,
   projects: [String],
-  cohort: ObjectId(),
+  // cohort: ObjectId(),
 });
 
 // CREATE MODEL
