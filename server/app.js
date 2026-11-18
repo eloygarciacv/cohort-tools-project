@@ -41,16 +41,184 @@ app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
 
-const Cohort = require("./models/Cohort.model");
 const Student = require("./models/Student.model");
+const Cohort = require("./models/Cohort.model");
 
-// app.get("/api/cohorts", (req, res) => {
-//   res.json(cohorts);
-// });
+// STUDENT ROUTES
 
-// app.get("/api/students", (req, res) => {
-//   res.json(students);
-// });
+app.post("/api/students", async (req, res) => {
+  try {
+    const response = await Student.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      phone: req.body.phone,
+      linkedinUrl: req.body.linkedinUrl,
+      languages: req.body.languages,
+      program: req.body.program,
+      background: req.body.background,
+      image: req.body.image,
+      projects: req.body.projects,
+      // cohorts: req.body.cohorts,
+    });
+
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
+
+app.get("/api/students", async (req, res) => {
+  try {
+    const response = await Student.find();
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
+
+app.get("/api/students/cohort/:cohortId", async (req, res) => {
+  try {
+    // For this one I think we need the collection relationship.
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
+
+app.get("/api/students/:studentId", async (req, res) => {
+  try {
+    const response = await Student.findById(req.params.studentId);
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
+
+app.patch("/api/students/:studentId", async (req, res) => {
+  try {
+    const response = await Student.findByIdAndUpdate(
+      req.params.studentId,
+      {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        phone: req.body.phone,
+        linkedinUrl: req.body.linkedinUrl,
+        languages: req.body.languages,
+        program: req.body.program,
+        background: req.body.background,
+        image: req.body.image,
+        projects: req.body.projects,
+      },
+      {
+        returnDocument: "after",
+        runValidators: true,
+      },
+    );
+
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
+
+app.delete("/api/students/:studentId", async (req, res) => {
+  try {
+    await Student.findByIdAndDelete(req.params.studentId);
+    res.json({ message: "Student deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
+
+// COHORT ROUTES
+
+app.post("/api/cohorts", async (req, res) => {
+  try {
+    const response = await Cohort.create({
+      inProgress: req.body.inProgress,
+      cohortSlug: req.body.cohortSlug,
+      cohortName: req.body.cohortName,
+      program: req.body.program,
+      campus: req.body.campus,
+      startDate: req.body.startDate,
+      endDate: req.body.endDate,
+      programManager: req.body.programManager,
+      leadTeacher: req.body.leadTeacher,
+      totalHours: req.body.totalHours,
+    });
+
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
+
+app.get("/api/cohorts", async (req, res) => {
+  try {
+    const response = await Cohort.find();
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
+
+app.get("/api/cohorts/:cohortId", async (req, res) => {
+  try {
+    const response = await Cohort.findById(req.params.cohortId);
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
+
+app.patch("/api/cohorts/:cohortId", async (req, res) => {
+  try {
+    const response = await Cohort.findByIdAndUpdate(
+      req.params.cohortId,
+      {
+        inProgress: req.body.inProgress,
+        cohortSlug: req.body.cohortSlug,
+        cohortName: req.body.cohortName,
+        program: req.body.program,
+        campus: req.body.campus,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+        programManager: req.body.programManager,
+        leadTeacher: req.body.leadTeacher,
+        totalHours: req.body.totalHours,
+      },
+      {
+        returnDocument: "after",
+        runValidators: true,
+      },
+    );
+
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
+
+app.delete("/api/cohorts/:cohortId", async (req, res) => {
+  try {
+    await Cohort.findByIdAndDelete(req.params.cohortId);
+    res.json({ message: "Cohort deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    res.json(error);
+  }
+});
 
 // START SERVER
 app.listen(PORT, () => {
