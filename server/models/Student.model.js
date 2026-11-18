@@ -14,8 +14,11 @@ const studentSchema = new Schema({
   background: String,
   image: String,
   projects: [String],
-  // cohort: ObjectId,
-});
+   cohort: {
+   type: Schema.Types.ObjectId,
+ 
+  ref: "Cohort"
+}});
 
 // CREATE MODEL
 const Student = mongoose.model("Student", studentSchema);

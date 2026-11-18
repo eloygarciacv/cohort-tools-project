@@ -71,7 +71,8 @@ app.post("/api/students", async (req, res) => {
 
 app.get("/api/students", async (req, res) => {
   try {
-    const response = await Student.find();
+    const response = await Student.find().populate("cohort");
+    console.log(response)
     res.json(response);
   } catch (error) {
     console.log(error);
@@ -82,6 +83,9 @@ app.get("/api/students", async (req, res) => {
 app.get("/api/students/cohort/:cohortId", async (req, res) => {
   try {
     // For this one I think we need the collection relationship.
+    const response=await Student.find({cohort:req.params.cohortId}).populate("cohort")
+    console.log(response)
+    res.json(response)
   } catch (error) {
     console.log(error);
     res.json(error);
@@ -90,7 +94,7 @@ app.get("/api/students/cohort/:cohortId", async (req, res) => {
 
 app.get("/api/students/:studentId", async (req, res) => {
   try {
-    const response = await Student.findById(req.params.studentId);
+    const response = await Student.findById(req.params.studentId).populate("cohort");
     res.json(response);
   } catch (error) {
     console.log(error);
