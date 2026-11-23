@@ -1,4 +1,3 @@
-
 try {
   process.loadEnvFile();
 } catch (error) {
@@ -13,18 +12,17 @@ if (!process.env.JWT_SECRET) {
 
 const app = express();
 
+require("./db");
 
-require("./db")
-
-const addConfig = require("./config")
-addConfig(app)
+const addConfig = require("./config");
+addConfig(app);
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "all good here!" });
 });
 
-const indexRouter = require("./routes/index.routes.js")
-app.use("/api", indexRouter)
+const indexRouter = require("./routes/index.routes.js");
+app.use("/api", indexRouter);
 
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
@@ -40,13 +38,8 @@ const cohortRoutes = require("./routes/cohort.routes");
 
 app.use("/api/cohorts", cohortRoutes);
 
-const handleErrors = require("./errors")
-handleErrors(app)
-
-
-
-
-
+const handleErrors = require("./errors");
+handleErrors(app);
 
 // server listen & PORT
 
