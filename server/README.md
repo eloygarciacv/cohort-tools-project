@@ -13,6 +13,23 @@ The API offers a variety of routes to work with *cohort* and *student* documents
 
 <br>
 
+#### Authentication and user routes
+
+Set `JWT_SECRET` to a long, random value in `server/.env`. The server also accepts
+`MONGODB_URI`; see `.env.sample` for the default local database.
+
+| HTTP verb | URL              | Request body                     | Action |
+| --------- | ---------------- | -------------------------------- | ------ |
+| POST      | `/auth/signup`   | `name`, `email`, `password`      | Creates a user. The password must have at least 8 characters and at most 72 UTF-8 bytes. |
+| POST      | `/auth/login`    | `email`, `password`              | Returns an `authToken` valid for 6 hours. |
+| GET       | `/auth/verify`   | (empty)                          | Returns the authenticated user's token payload. |
+| GET       | `/api/users/:id` | (empty)                          | Returns a user profile. |
+
+Send `Authorization: Bearer <authToken>` for `/auth/verify` and `/api/users/:id`.
+The user route requires authentication; it does not restrict access to the caller's own profile.
+
+<br>
+
 #### Cohort routes
 
 | HTTP verb | URL                        | Request body | Action                                 |

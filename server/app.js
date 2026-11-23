@@ -7,6 +7,9 @@ try {
 
 const express = require("express");
 
+if (!process.env.JWT_SECRET) {
+  throw new Error("JWT_SECRET is required");
+}
 
 const app = express();
 
@@ -22,6 +25,12 @@ app.get("/", (req, res) => {
 
 const indexRouter = require("./routes/index.routes.js")
 app.use("/api", indexRouter)
+
+const authRoutes = require("./routes/auth.routes");
+app.use("/auth", authRoutes);
+
+const userRoutes = require("./routes/user.routes");
+app.use("/api/users", userRoutes);
 
 const studentRoutes = require("./routes/students.routes");
 

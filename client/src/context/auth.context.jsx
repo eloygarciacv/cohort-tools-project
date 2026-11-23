@@ -36,14 +36,10 @@ function AuthProviderWrapper(props) {
           setIsLoggedIn(true);
           setIsLoading(false);
           setUser(user);
+          setAuthError(null);
         })
         .catch((error) => {
-          if (error) {
-            setAuthError(error.response.data.message);
-            return;
-          }
-          // If the server sends an error response (invalid token)
-          // Update state variables
+          setAuthError(error.response?.data?.message || "Could not verify the session");
           setIsLoggedIn(false);
           setIsLoading(false);
           setUser(null);

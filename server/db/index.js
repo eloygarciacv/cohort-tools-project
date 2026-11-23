@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const MONGO_URI = "mongodb://localhost:27017/cohort-tools-api";
+const MONGO_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/cohort-tools-api";
 
 mongoose
   .connect(MONGO_URI)
